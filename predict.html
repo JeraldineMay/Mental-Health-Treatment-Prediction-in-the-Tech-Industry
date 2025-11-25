@@ -138,56 +138,66 @@ button:hover {
   font-weight: bold;
   color: #00522d;
 }
-
 /* ============================================================
    RESPONSIVE FIX FOR MOBILE (UNCHANGED)
    ============================================================ */
 @media (max-width: 768px) {
 
+  @media (max-width: 768px) {
   .container {
-    width: 90%;
+    width: 70%;          /* smaller */
     min-width: auto;
-    padding: 25px 20px;
+    padding: 30px 30px;  /* smaller padding */
+    margin: 0 auto;
   }
 
   h1 {
-    font-size: 1.4rem;
-    margin-bottom: 20px;
+    font-size: 1.6rem;
+    margin-bottom: 25px;
   }
 
   label {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
-  input,
-  select {
-    font-size: 0.9rem;
-    padding: 6px;
+  input, select {
+    font-size: 1rem;        /* smaller input text */
+    padding: 5px;
+  }
+
+  input::placeholder {
+    font-size: 1rem;         /* smaller placeholder */
+  }
+  input[name="age"],
+  input[name="country"] {
+  font-size: 14px;   /* smaller text size */
+  padding: 8px;      /* optional: smaller padding */
   }
 
   button {
     width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-
-  #result-container {
-    padding: 8px;
-  }
-
-  #result {
     font-size: 1.2rem;
+    padding: 12px;
   }
-
-  .buttons {
-    gap: 10px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
+  #nextBtn1 {
+  margin-left: 0; /* remove any extra spacing */
   }
 
   .buttons:first-of-type {
-    justify-content: flex-start;
+  justify-content: flex-start; /* aligns children to the left */
+  }
+    
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  #result-container {
+    padding: 10px;  /* smaller padding on small screens */
+  }
+
+  #result {
+    font-size: 1.8rem; /* optional: reduce font size too */
   }
 }
   </style>
@@ -463,6 +473,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
