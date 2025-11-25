@@ -22,15 +22,14 @@ body {
 
 /* ===== MAIN CONTAINER ===== */
 .container {
-    width: 90%;
-    min-width: auto;      /* FIX: prevents forced zoom */
-    padding: 25px 25px;   /* reduce side padding */
-}
-@media (max-width: 480px) {
-  body {
-    align-items: flex-start;
-    padding-top: 20px;
-  }
+  width: 40%;
+  min-width: 420px;
+  min-height: 70vh;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 35px 80px;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.4s ease-out;
 }
 
 @keyframes fadeIn {
@@ -75,9 +74,8 @@ select {
   font-size: 2.3rem;
   background-color: #fafafa;
   transition: 0.2s ease;
-  box-sizing: border-box; /* ensures padding doesn't break the height */
+  box-sizing: border-box;
 }
-
 
 input:focus,
 select:focus {
@@ -104,7 +102,7 @@ button {
   cursor: pointer;
   transition: 0.2s ease;
   font-size: 2.5rem;
-  width: 250px; 
+  width: 250px;
   margin-top: 30px;
   margin-bottom: 30px;
 }
@@ -114,7 +112,7 @@ button:hover {
   transform: scale(1.03);
 }
 
-/* ===== STEPS SYSTEM ===== */
+/* ===== STEPS ===== */
 .step {
   display: none;
 }
@@ -132,12 +130,57 @@ button:hover {
   border-radius: 10px;
   text-align: center;
   display: none;
+  animation: fadeIn 0.3s ease-out;
 }
 
 #result {
   font-size: 3rem;
   font-weight: bold;
   color: #00522d;
+}
+
+/* ============================================================
+   ============== RESPONSIVE FIX FOR MOBILE ====================
+   ============================================================ */
+@media (max-width: 480px) {
+
+  body {
+    height: auto;          /* keeps container visible */
+    padding: 20px 0;
+    align-items: flex-start;
+  }
+
+  .container {
+    width: 90%;
+    min-width: auto;       /* prevents zoom-in */
+    padding: 25px 25px;    /* reduce spacing */
+    margin: 0 auto;        /* centers container */
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+
+  label {
+    font-size: 1.3rem;
+  }
+
+  input, select {
+    font-size: 1.2rem;
+    padding: 10px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1.3rem;
+    padding: 15px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
   </style>
 </head>
@@ -412,6 +455,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
