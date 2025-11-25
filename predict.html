@@ -167,6 +167,11 @@ button:hover {
   input::placeholder {
     font-size: 1rem;         /* smaller placeholder */
   }
+  input[name="age"],
+  input[name="country"] {
+  font-size: 14px;   /* smaller text size */
+  padding: 8px;      /* optional: smaller padding */
+  }
 
   button {
     width: 100%;
@@ -177,6 +182,7 @@ button:hover {
   .buttons {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
   }
 }
   </style>
@@ -452,6 +458,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
