@@ -6,7 +6,7 @@ import uvicorn
 
 app = FastAPI()
 
-# CORS settings
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,57 +18,63 @@ app.add_middleware(
 # Serve static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+
 @app.get("/")
-def get_home():
+def home():
     return FileResponse("predict.html")
 
 
 @app.post("/predict")
 async def predict(request: Request):
+
     data = await request.json()
 
-    # ========== RULE-BASED PREDICTION ==========
-    # If ANY of these answers are Yes → higher risk
-    risky_keys_yes = [
+    # ===== NORMALIZE ALL INPUTS =====
+    normalized = {}
+    for key, value in data.items():
+        if isinstance(value, str):
+            normalized[key] = value.strip().lower()
+        else:
+            normalized[key] = value
+
+    print("Received:", normalized)
+
+    # ===== START WITH NO =====
+    prediction = "no"
+
+    # ===== RULE 1: RISKY YES ANSWERS =====
+    risky_yes_fields = [
         "family_history",
         "mental_health_consequence",
         "phys_health_consequence",
-        "obs_consequence"
+        "obs_consequence",
     ]
 
-    # If work interferes often/sometimes → higher risk
-    work_interfere_risky = ["Often", "Sometimes"]
+    for key in risky_yes_fields:
+        if normalized.get(key) == "yes":
+            prediction = "yes"
 
-    # Start with "No"
-    prediction = "No"
+    # ===== RULE 2: Work interfere =====
+    if normalized.get("work_interfere") in ["often", "sometimes"]:
+        prediction = "yes"
 
-    # Rule 1: Check Yes answers
-    for key in risky_keys_yes:
-        if data.get(key, "").strip().lower() == "yes":
-            prediction = "Yes"
+    # ===== RULE 3: Leave difficulty =====
+    if normalized.get("leave") == "very difficult":
+        prediction = "yes"
 
-    # Rule 2: Work interfere
-    if data.get("work_interfere", "") in work_interfere_risky:
-        prediction = "Yes"
+    # ===== RULE 4: Coworkers / Supervisor =====
+    if normalized.get("coworkers") == "no":
+        prediction = "yes"
+    if normalized.get("supervisor") == "no":
+        prediction = "yes"
 
-    # Rule 3: Leave difficulty
-    if data.get("leave") in ["Very difficult"]:
-        prediction = "Yes"
+    # ===== RULE 5: Mental vs Physical =====
+    if normalized.get("mental_vs_physical") == "yes":
+        prediction = "yes"
 
-    # Rule 4: Coworkers / supervisor support
-    if data.get("coworkers") == "No" or data.get("supervisor") == "No":
-        prediction = "Yes"
-
-    # Rule 5: Age factor (optional, adjust as needed)
-    try:
-        age = int(data.get("age", 0))
-        if age < 18 or age > 60:
-            prediction = "Yes"
-    except:
-        pass
-
-    return JSONResponse({"prediction": prediction})
+    # ===== FINAL OUTPUT =====
+    return JSONResponse({"prediction": prediction.capitalize()})
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
