@@ -142,39 +142,36 @@ button:hover {
 /* ============================================================
    ============== RESPONSIVE FIX FOR MOBILE ====================
    ============================================================ */
-@media (max-width: 480px) {
-
-  body {
-    height: auto;          /* keeps container visible */
-    padding: 20px 0;
-    align-items: flex-start;
-  }
-
+ /* ==== SMALLER CONTAINER ON MOBILE ==== */
   .container {
-    width: 90%;
-    min-width: auto;       /* prevents zoom-in */
-    padding: 25px 25px;    /* reduce spacing */
-    margin: 0 auto;        /* centers container */
+    width: 85%;          /* smaller */
+    min-width: auto;
+    padding: 20px 20px;  /* smaller padding */
+    margin: 0 auto;
   }
 
   h1 {
-    font-size: 2rem;
-    margin-bottom: 30px;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
   }
 
   label {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   input, select {
-    font-size: 1.2rem;
-    padding: 10px;
+    font-size: 1rem;        /* smaller input text */
+    padding: 8px;
+  }
+
+  input::placeholder {
+    font-size: 1rem;         /* smaller placeholder */
   }
 
   button {
     width: 100%;
-    font-size: 1.3rem;
-    padding: 15px;
+    font-size: 1.2rem;
+    padding: 12px;
   }
 
   .buttons {
@@ -455,6 +452,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
