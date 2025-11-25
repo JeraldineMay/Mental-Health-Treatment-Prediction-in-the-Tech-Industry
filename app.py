@@ -30,49 +30,42 @@ async def predict(request: Request):
     data = await request.json()
 
     # ===== NORMALIZE ALL INPUTS =====
-    normalized = {}
-    for key, value in data.items():
-        if isinstance(value, str):
-            normalized[key] = value.strip().lower()
-        else:
-            normalized[key] = value
+    normalized = {k: (v.strip().lower() if isinstance(v, str) else v) for k, v in data.items()}
 
     print("Received:", normalized)
 
-    # ===== START WITH NO =====
+    # Start with NO
     prediction = "no"
 
-    # ===== RULE 1: RISKY YES ANSWERS =====
-    risky_yes_fields = [
+    # ===== RULE 1: Strong mental health indicators =====
+    positive_keys = [
         "family_history",
         "mental_health_consequence",
-        "phys_health_consequence",
-        "obs_consequence",
     ]
 
-    for key in risky_yes_fields:
+    for key in positive_keys:
         if normalized.get(key) == "yes":
             prediction = "yes"
 
     # ===== RULE 2: Work interfere =====
-    if normalized.get("work_interfere") in ["often", "sometimes"]:
+    if normalized.get("work_interfere") in ["often"]:
         prediction = "yes"
 
     # ===== RULE 3: Leave difficulty =====
     if normalized.get("leave") == "very difficult":
         prediction = "yes"
 
-    # ===== RULE 4: Coworkers / Supervisor =====
-    if normalized.get("coworkers") == "no":
-        prediction = "yes"
-    if normalized.get("supervisor") == "no":
+    # ===== RULE 4: Physical health consequence =====
+    if normalized.get("phys_health_consequence") == "yes":
         prediction = "yes"
 
-    # ===== RULE 5: Mental vs Physical =====
-    if normalized.get("mental_vs_physical") == "yes":
+    # ===== RULE 5: Obvious consequences =====
+    if normalized.get("obs_consequence") == "yes":
         prediction = "yes"
 
-    # ===== FINAL OUTPUT =====
+    # Less aggressive: coworkers/supervisor removed
+
+    # FINAL OUTPUT
     return JSONResponse({"prediction": prediction.capitalize()})
 
 
