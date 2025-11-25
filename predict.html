@@ -387,7 +387,7 @@ button:hover {
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/predict", { // change to your deployed API URL if needed
+      const response = await fetch("https://mental-health-treatment-prediction-in-o4k7.onrender.com/predict"", { // change to your deployed API URL if needed
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -412,3 +412,4 @@ button:hover {
 
 </body>
 </html>
+
