@@ -6,7 +6,6 @@
   <title>Mental Health Treatment Prediction</title>
   <style>
 /* ===== PAGE BACKGROUND ===== */
-/* ===== PAGE BACKGROUND ===== */
 body {
   margin: 0;
   padding: 0;
@@ -23,13 +22,13 @@ body {
 
 /* ===== MAIN CONTAINER ===== */
 .container {
-  width: 600px;
+  width: 500px;              /* Smaller desktop width */
   max-width: 90%;
-  min-height: 70vh;
+  min-height: 65vh;
   background: rgba(255, 255, 255, 0.96);
-  padding: 35px 50px;
-  border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  padding: 25px 35px;        /* Reduced padding */
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
   animation: fadeIn 0.4s ease-out;
 }
 
@@ -42,16 +41,16 @@ body {
 h1 {
   text-align: center;
   color: #00796b;
-  font-size: 2rem;
-  margin-bottom: 35px;
+  font-size: 1.6rem;         /* Smaller title */
+  margin-bottom: 25px;
   font-weight: 700;
 }
 
 /* ===== FORM GRID ===== */
 form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px 25px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted */
+  gap: 16px 20px;
 }
 
 /* ===== LABELS ===== */
@@ -59,9 +58,9 @@ label {
   display: block;
   font-weight: 600;
   color: #00382e;
-  font-size: 1.2rem;
-  margin-bottom: 6px;
-  margin-top: 8px;
+  font-size: 1rem;        /* Reduced */
+  margin-bottom: 4px;
+  margin-top: 6px;
 }
 
 /* ===== INPUT FIELDS ===== */
@@ -69,10 +68,10 @@ input[type="number"],
 input[type="text"],
 select {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 8px;           /* Slightly smaller */
+  border-radius: 6px;
   border: 1px solid #a9a9a9;
-  font-size: 1rem;
+  font-size: 0.9rem;      /* Reduced */
   background-color: #fafafa;
   transition: 0.2s ease;
   box-sizing: border-box;
@@ -90,22 +89,22 @@ select:focus {
   grid-column: 1 / -1;
   display: flex;
   justify-content: space-between;
-  margin-top: 18px;
+  margin-top: 15px;
 }
 
 button {
-  padding: 12px 25px;
+  padding: 10px 18px;
   background-color: #00796b;
   color: white;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: 0.2s ease;
-  font-size: 1.2rem;
-  width: 200px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  font-size: 1rem;         /* Reduced */
+  width: 160px;            /* Smaller */
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 button:hover {
@@ -124,8 +123,8 @@ button:hover {
 
 /* ===== RESULT BOX ===== */
 #result-container {
-  margin-top: 20px;
-  padding: 20px;
+  margin-top: 15px;
+  padding: 15px;
   background-color: #46ee6a;
   border-left: 6px solid #00a03e;
   border-radius: 10px;
@@ -135,13 +134,13 @@ button:hover {
 }
 
 #result {
-  font-size: 1.5rem;
+  font-size: 1.3rem;      /* Slightly smaller */
   font-weight: bold;
   color: #00522d;
 }
 
 /* ============================================================
-   ============== RESPONSIVE FIX FOR MOBILE ====================
+   RESPONSIVE FIX FOR MOBILE (UNCHANGED)
    ============================================================ */
 @media (max-width: 768px) {
 
@@ -464,6 +463,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
