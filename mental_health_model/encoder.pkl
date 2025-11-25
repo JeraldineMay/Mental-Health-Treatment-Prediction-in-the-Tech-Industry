@@ -1,0 +1,23 @@
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+import pickle
+
+# Example: Load your dataset
+df = pd.read_csv("mental_health.csv")
+
+# List of categorical columns
+categorical_cols = [
+    'Gender', 'Country', 'Self_Employed', 'Family_History', 'Work_Interfere',
+    'No_Employees', 'Remote_Work', 'Tech_Company', 'Benefits', 'Care_Options',
+    'Wellness_Program', 'Seek_Help', 'Anonymity', 'Leave', 'Mental_Health_Consequence',
+    'Physical_Health_Consequence', 'Coworkers', 'Supervisor', 'Mental_Health_Interview',
+    'Physical_Health_Interview', 'Mental_vs_Physical', 'Obs_Consequence'
+]
+
+# Fit the encoder on your dataset
+encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)
+encoder.fit(df[categorical_cols])
+
+# Save it
+with open("encoder.pkl", "wb") as f:
+    pickle.dump(encoder, f)

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health Treatment Prediction</title>
+  <style>
+/* ===== PAGE BACKGROUND ===== */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url("/static/bckgrnd.jpg") center center no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  width: 40%;
+  min-width: 420px;
+  min-height: 70vh;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 35px 80px;
+  border-radius: 18px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TITLE ===== */
+h1 {
+  text-align: center;
+  color: #00796b;
+  font-size: 3.5rem;
+  margin-bottom: 60px;
+  font-weight: 700;
+}
+
+/* ===== FORM GRID ===== */
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px 25px;
+}
+
+/* ===== LABELS ===== */
+label {
+  display: block;
+  font-weight: 600;
+  color: #00382e;
+  font-size: 3rem;
+  margin-bottom: 6px;
+  margin-top: 8px;
+}
+
+/* ===== INPUT FIELDS ===== */
+input[type="number"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #a9a9a9;
+  font-size: 2.3rem;
+  background-color: #fafafa;
+  transition: 0.2s ease;
+  box-sizing: border-box; /* ensures padding doesn't break the height */
+}
+
+
+input:focus,
+select:focus {
+  border-color: #00796b;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 121, 65, 0.3);
+}
+
+/* ===== BUTTONS ===== */
+.buttons {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+button {
+  padding: 20px 30px;
+  background-color: #00796b;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 2.5rem;
+  width: 250px; 
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+button:hover {
+  background-color: #00594f;
+  transform: scale(1.03);
+}
+
+/* ===== STEPS SYSTEM ===== */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: grid;
+}
+
+/* ===== RESULT BOX ===== */
+#result-container {
+  margin-top: 20px;
+  padding: 23px;
+  background-color: #46ee6a;
+  border-left: 6px solid #00a03e;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+
+#result {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #00522d;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🍃 Mental Health Treatment Prediction 🍃</h1>
+
+    <form id="mhForm">
+
+      <!-- STEP 1 -->
+      <div class="step active">
+        <label>Age:</label>
+        <input type="number" name="age" placeholder="Enter your Age" required>
+
+        <label>Gender:</label>
+        <select name="gender" required>
+          <option value="" hidden>Select</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+
+        <label>Country:</label>
+        <input type="text" name="country" placeholder="Enter your Country" required>
+
+        <label>Self Employed:</label>
+        <select name="self_employed" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Family History:</label>
+        <select name="family_history" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Work Interfere:</label>
+        <select name="work_interfere" required>
+          <option value="" hidden>Select</option>
+          <option>Never</option>
+          <option>Rarely</option>
+          <option>Sometimes</option>
+          <option>Often</option>
+        </select>
+
+        <label>No. Employees:</label>
+        <select name="no_employees" required>
+          <option value="" hidden>Select</option>
+          <option>1-5</option>
+          <option>6-25</option>
+          <option>26-100</option>
+          <option>100-500</option>
+          <option>500-1000</option>
+          <option>More than 1000</option>
+        </select>
+
+        <label>Remote Work:</label>
+        <select name="remote_work" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <div class="buttons">
+          <div></div>
+          <button type="button" id="nextBtn1">Next</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <label>Tech Company:</label>
+        <select name="tech_company" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Benefits:</label>
+        <select name="benefits" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Don't know</option>
+        </select>
+
+        <label>Care Options:</label>
+        <select name="care_options" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Not sure</option>
+        </select>
+
+        <label>Wellness Program:</label>
+        <select name="wellness_program" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Don't know</option>
+        </select>
+
+        <label>Seek Help:</label>
+        <select name="seek_help" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Don't know</option>
+        </select>
+
+        <label>Anonymity:</label>
+        <select name="anonymity" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Don't know</option>
+        </select>
+
+        <label>Leave:</label>
+        <select name="leave" required>
+          <option value="" hidden>Select</option>
+          <option>Very easy</option>
+          <option>Somewhat easy</option>
+          <option>Very difficult</option>
+          <option>Don't know</option>
+        </select>
+
+        <label>Mental Health Consequence:</label>
+        <select name="mental_health_consequence" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Maybe</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" id="prevBtn2">Previous</button>
+          <button type="button" id="nextBtn2">Next</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <label>Physical Health Consequence:</label>
+        <select name="phys_health_consequence" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Maybe</option>
+        </select>
+
+        <label>Coworkers:</label>
+        <select name="coworkers" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Some of them</option>
+        </select>
+
+        <label>Supervisor:</label>
+        <select name="supervisor" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Some of them</option>
+        </select>
+
+        <label>Mental Health Interview:</label>
+        <select name="mental_health_interview" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Maybe</option>
+        </select>
+
+        <label>Physical Health Interview:</label>
+        <select name="physical_health_interview" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Maybe</option>
+        </select>
+
+        <label>Mental vs Physical:</label>
+        <select name="mental_vs_physical" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Don't know</option>
+        </select>
+
+        <label>Obs Consequence:</label>
+        <select name="obs_consequence" required>
+          <option value="" hidden>Select</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <div class="buttons">
+          <button type="button" id="prevBtn3">Previous</button>
+          <button type="submit" id="predBtn">Predict</button>
+        </div>
+      </div>
+
+    </form>
+
+    <div id="result-container">
+      <h2 id="result"></h2>
+    </div>
+  </div>
+
+  <script>
+  const steps = document.querySelectorAll('.step');
+  let step = 0;
+
+  // Step navigation
+  document.getElementById('nextBtn1').onclick = () => {
+    steps[step].classList.remove('active');
+    step = 1;
+    steps[step].classList.add('active');
+  };
+  document.getElementById('nextBtn2').onclick = () => {
+    steps[step].classList.remove('active');
+    step = 2;
+    steps[step].classList.add('active');
+  };
+  document.getElementById('prevBtn2').onclick = () => {
+    steps[step].classList.remove('active');
+    step = 0;
+    steps[step].classList.add('active');
+  };
+  document.getElementById('prevBtn3').onclick = () => {
+    steps[step].classList.remove('active');
+    step = 1;
+    steps[step].classList.add('active');
+  };
+
+  // Form submit
+  const form = document.getElementById("mhForm");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Convert form data to JSON
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/predict", { // change to your deployed API URL if needed
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      document.getElementById("result").innerText =
+        `Do you need treatment for a mental health condition?: ${result.prediction}`;
+
+      document.getElementById("result-container").style.display = "block";
+    } catch (error) {
+      console.error("Error:", error);
+      alert("There was an error contacting the prediction API. Make sure your backend is running and the URL is correct.");
+    }
+  });
+</script>
+
+</body>
+</html>
