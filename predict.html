@@ -461,7 +461,7 @@ button:hover {
     </div>
   </div>
 
-  <script>
+ <script>
   const steps = document.querySelectorAll('.step');
   let step = 0;
 
@@ -497,7 +497,7 @@ button:hover {
     const data = Object.fromEntries(formData.entries());
 
     try {
-      const response = await fetch("https://mental-health-treatment-prediction-in-nh7x.onrender.com/predict", { // change to your deployed API URL if needed
+      const response = await fetch("https://mental-health-treatment-prediction-in-zhbn.onrender.com/predict", { // change to your deployed API URL if needed
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
@@ -522,6 +522,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
