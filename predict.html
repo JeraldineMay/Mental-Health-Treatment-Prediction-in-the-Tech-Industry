@@ -22,35 +22,30 @@ body {
 
 /* ===== MAIN CONTAINER ===== */
 .container {
-  width: 500px;              /* Smaller desktop width */
+  width: 420px;               /* Smaller desktop width */
   max-width: 90%;
-  min-height: 65vh;
+  min-height: 60vh;
   background: rgba(255, 255, 255, 0.96);
-  padding: 25px 35px;        /* Reduced padding */
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  padding: 18px 25px;         /* Smaller padding */
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
   animation: fadeIn 0.4s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== TITLE ===== */
 h1 {
   text-align: center;
   color: #00796b;
-  font-size: 1.6rem;         /* Smaller title */
-  margin-bottom: 25px;
+  font-size: 1.3rem;          /* Smaller title */
+  margin-bottom: 18px;
   font-weight: 700;
 }
 
 /* ===== FORM GRID ===== */
 form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted */
-  gap: 16px 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px 16px;
 }
 
 /* ===== LABELS ===== */
@@ -58,9 +53,9 @@ label {
   display: block;
   font-weight: 600;
   color: #00382e;
-  font-size: 1rem;        /* Reduced */
-  margin-bottom: 4px;
-  margin-top: 6px;
+  font-size: 0.9rem;          /* Smaller */
+  margin-bottom: 3px;
+  margin-top: 5px;
 }
 
 /* ===== INPUT FIELDS ===== */
@@ -68,20 +63,13 @@ input[type="number"],
 input[type="text"],
 select {
   width: 100%;
-  padding: 8px;           /* Slightly smaller */
-  border-radius: 6px;
+  padding: 6px;              /* Smaller */
+  border-radius: 5px;
   border: 1px solid #a9a9a9;
-  font-size: 0.9rem;      /* Reduced */
+  font-size: 0.8rem;         /* Smaller */
   background-color: #fafafa;
   transition: 0.2s ease;
   box-sizing: border-box;
-}
-
-input:focus,
-select:focus {
-  border-color: #00796b;
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 121, 65, 0.3);
 }
 
 /* ===== BUTTONS ===== */
@@ -89,11 +77,11 @@ select:focus {
   grid-column: 1 / -1;
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 button {
-  padding: 10px 18px;
+  padding: 8px 12px;
   background-color: #00796b;
   color: white;
   font-weight: 600;
@@ -101,40 +89,26 @@ button {
   border-radius: 6px;
   cursor: pointer;
   transition: 0.2s ease;
-  font-size: 1rem;         /* Reduced */
-  width: 160px;            /* Smaller */
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-button:hover {
-  background-color: #00594f;
-  transform: scale(1.03);
-}
-
-/* ===== STEPS ===== */
-.step {
-  display: none;
-}
-
-.step.active {
-  display: grid;
+  font-size: 0.9rem;         /* Smaller */
+  width: 130px;              /* Smaller */
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 /* ===== RESULT BOX ===== */
 #result-container {
-  margin-top: 15px;
-  padding: 15px;
+  margin-top: 12px;
+  padding: 12px;
   background-color: #46ee6a;
-  border-left: 6px solid #00a03e;
-  border-radius: 10px;
+  border-left: 5px solid #00a03e;
+  border-radius: 8px;
   text-align: center;
   display: none;
   animation: fadeIn 0.3s ease-out;
 }
 
 #result {
-  font-size: 1.3rem;      /* Slightly smaller */
+  font-size: 1.1rem;         /* Smaller */
   font-weight: bold;
   color: #00522d;
 }
@@ -473,6 +447,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
