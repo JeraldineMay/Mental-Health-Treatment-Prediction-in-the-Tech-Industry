@@ -178,11 +178,25 @@ button:hover {
     font-size: 1.2rem;
     padding: 12px;
   }
+  #nextBtn1 {
+  margin-left: 0; /* remove any extra spacing */
+  }
 
+  .buttons:first-of-type {
+  justify-content: flex-start; /* aligns children to the left */
+  }
+    
   .buttons {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+  }
+  #result-container {
+    padding: 10px;  /* smaller padding on small screens */
+  }
+
+  #result {
+    font-size: 1.8rem; /* optional: reduce font size too */
   }
 }
   </style>
@@ -458,6 +472,7 @@ button:hover {
 
 </body>
 </html>
+
 
 
 
