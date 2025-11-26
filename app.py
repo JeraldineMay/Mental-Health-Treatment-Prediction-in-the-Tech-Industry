@@ -9,6 +9,8 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Mental Health Prediction API")
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # -------------------------------
 # LOAD TRAINED MODEL + METADATA
 # -------------------------------
@@ -61,6 +63,7 @@ async def predict(request: Request):
         "prediction": pred,
         "probability": prob
     })
+
 
 
 
