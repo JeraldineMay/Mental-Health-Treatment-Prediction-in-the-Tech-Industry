@@ -7,6 +7,8 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Mental Health Prediction API")
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 # Load model
 pipeline = joblib.load("model_pipeline.pkl")
 
@@ -54,3 +56,4 @@ async def predict(request: Request):
         "prediction": pred,
         "probability": prob
     })
+
