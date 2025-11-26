@@ -29,25 +29,39 @@ def home():
 @app.post("/predict")
 async def predict(request: Request):
 
-    # Get submitted form data
-    form = await request.form()
+    # Handle both form-data and JSON
+    try:
+        incoming = await request.form()
+        data = {k.lower(): v for k, v in incoming.items()}
+    except:
+        incoming = await request.json()
+        data = {k.lower(): v for k, v in incoming.items()}
 
-    # Convert form keys to lowercase
-    data = {k.lower(): v for k, v in form.items()}
-
-    # Ensure all required features exist
     clean_data = {}
-    for feature in FEATURES:
-        clean_data[feature] = data.get(feature.lower(), "")
 
-    # Convert to DataFrame
+    # Ensure features match training metadata
+    for feature in FEATURES:
+        raw = data.get(feature.lower(), None)
+
+        # Convert to float if possible
+        try:
+            clean_data[feature] = float(raw)
+        except:
+            clean_data[feature] = 0
+
+    # Create DataFrame
     df = pd.DataFrame([clean_data], columns=FEATURES)
 
     # Predict
     pred = pipeline.predict(df)[0]
-    prob = float(pipeline.predict_proba(df)[0][1])
+
+    if hasattr(pipeline, "predict_proba"):
+        prob = float(pipeline.predict_proba(df)[0][1])
+    else:
+        prob = None
 
     return JSONResponse({
         "prediction": pred,
-        "probability": round(prob, 3)
+        "probability": prob
     })
+
