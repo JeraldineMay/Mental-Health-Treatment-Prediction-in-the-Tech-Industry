@@ -1,36 +1,56 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, FileResponse
+import pandas as pd
+import joblib
+import json
 from fastapi.staticfiles import StaticFiles
-import uvicorn
 
-app = FastAPI()
+app = FastAPI(title="Mental Health Prediction API")
 
-# Enable CORS if needed
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Load model
+pipeline = joblib.load("model_pipeline.pkl")
 
-# Serve static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Load metadata
+with open("model_metadata.json") as f:
+    FEATURES = json.load(f)["feature_names"]
 
-# Serve predict.html at the root URL
 @app.get("/")
-def get_home():
-    return FileResponse("predict.html")  # Same folder as app.py
+def home():
+    return FileResponse("predict.html")
 
-# Example prediction endpoint
+
 @app.post("/predict")
 async def predict(request: Request):
-    data = await request.json()
-    # Your prediction logic here
-    age = int(data.get("age", 0))
-    prediction = "Yes" if age < 40 else "No"
-    return JSONResponse({"prediction": prediction})
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    # MUST use form-data (your frontend sends multipart/form-data)
+    form = await request.form()
+
+    # Lowercase keys
+    data = {k.lower(): v for k, v in form.items()}
+
+    # Ensure all expected features exist
+    clean_data = {}
+    for feature in FEATURES:
+        value = data.get(feature.lower(), "")
+
+        # Convert numbers
+        try:
+            clean_data[feature] = float(value)
+        except:
+            clean_data[feature] = value
+
+    df = pd.DataFrame([clean_data], columns=FEATURES)
+
+    # Predict
+    pred = pipeline.predict(df)[0]
+
+    # Try probability
+    try:
+        prob = float(pipeline.predict_proba(df)[0][1])
+    except:
+        prob = None
+
+    return JSONResponse({
+        "prediction": pred,
+        "probability": prob
+    })
