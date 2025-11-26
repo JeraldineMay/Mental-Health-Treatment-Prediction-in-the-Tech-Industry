@@ -460,7 +460,7 @@ button:hover {
 const steps = document.querySelectorAll(".step");
 let currentStep = 0;
 
-// Updated showStep function
+// Show step function
 function showStep(step) {
   steps[currentStep].classList.remove("active");
   steps[step].classList.add("active");
@@ -470,33 +470,70 @@ function showStep(step) {
   document.getElementById("result-container").style.display = "none";
 }
 
-// Button clicks
+// Step buttons
 document.getElementById("nextBtn1").onclick = () => showStep(1);
 document.getElementById("nextBtn2").onclick = () => showStep(2);
 document.getElementById("prevBtn2").onclick = () => showStep(0);
 document.getElementById("prevBtn3").onclick = () => showStep(1);
+
+// Mapping for model inputs
+const mapping = {
+  "Yes": 1,
+  "No": 0,
+  "Don't know": 2,
+  "Not sure": 2,
+  "Never": 0,
+  "Rarely": 1,
+  "Sometimes": 2,
+  "Often": 3,
+  "Very easy": 0,
+  "Somewhat easy": 1,
+  "Very difficult": 2,
+  "Some of them": 1,
+  "Somewhat": 1
+};
 
 // Form submission
 document.getElementById("mhForm").onsubmit = async (e) => {
   e.preventDefault();
 
   const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
 
-  const response = await fetch("/predict", {
-    method: "POST",
-    body: formData
-  });
+  // Convert form values to numeric using mapping
+  for (let key in data) {
+    if (mapping[data[key]] !== undefined) {
+      data[key] = mapping[data[key]];
+    } else if (!isNaN(data[key])) {
+      data[key] = Number(data[key]); // for age
+    }
+  }
 
-  const data = await response.json();
+  try {
+    const response = await fetch("https://mental-health-treatment-prediction-in-zhbn.onrender.com/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-  document.getElementById("result").innerHTML =
-    "Do you need mental health treatment?: <strong>" + data.prediction + "</strong>";
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
 
-  // Show result only after submission
-  document.getElementById("result-container").style.display = "block";
+    const result = await response.json();
+
+    // Show result
+    document.getElementById("result").innerHTML =
+      "Do you need mental health treatment?: <strong>" + (result.prediction === 1 ? "Yes" : "No") + "</strong>";
+
+    document.getElementById("result-container").style.display = "block";
+  } catch (error) {
+    console.error("Error:", error);
+    alert("There was an error contacting the prediction API. Make sure your backend is running and the URL is correct.");
+  }
 };
 </script>
 
-
 </body>
 </html>
+
