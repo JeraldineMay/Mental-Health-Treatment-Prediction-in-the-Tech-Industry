@@ -1,24 +1,26 @@
+# app.py
+
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, FileResponse
+import pandas as pd
+import joblib
+import json
 from fastapi.staticfiles import StaticFiles
-import uvicorn
 
-app = FastAPI()
+app = FastAPI(title="Mental Health Prediction API")
 
-# CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# -------------------------------
+# LOAD TRAINED MODEL + METADATA
+# -------------------------------
+pipeline = joblib.load("model_pipeline.pkl")
 
-# Serve static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+with open("model_metadata.json") as f:
+    FEATURES = json.load(f)["feature_names"]
 
 
+# -------------------------------
+# ROUTES
+# -------------------------------
 @app.get("/")
 def home():
     return FileResponse("predict.html")
@@ -27,47 +29,25 @@ def home():
 @app.post("/predict")
 async def predict(request: Request):
 
-    data = await request.json()
+    # Get submitted form data
+    form = await request.form()
 
-    # ===== NORMALIZE ALL INPUTS =====
-    normalized = {k: (v.strip().lower() if isinstance(v, str) else v) for k, v in data.items()}
+    # Convert form keys to lowercase
+    data = {k.lower(): v for k, v in form.items()}
 
-    print("Received:", normalized)
+    # Ensure all required features exist
+    clean_data = {}
+    for feature in FEATURES:
+        clean_data[feature] = data.get(feature.lower(), "")
 
-    # Start with NO
-    prediction = "no"
+    # Convert to DataFrame
+    df = pd.DataFrame([clean_data], columns=FEATURES)
 
-    # ===== RULE 1: Strong mental health indicators =====
-    positive_keys = [
-        "family_history",
-        "mental_health_consequence",
-    ]
+    # Predict
+    pred = pipeline.predict(df)[0]
+    prob = float(pipeline.predict_proba(df)[0][1])
 
-    for key in positive_keys:
-        if normalized.get(key) == "yes":
-            prediction = "yes"
-
-    # ===== RULE 2: Work interfere =====
-    if normalized.get("work_interfere") in ["often"]:
-        prediction = "yes"
-
-    # ===== RULE 3: Leave difficulty =====
-    if normalized.get("leave") == "very difficult":
-        prediction = "yes"
-
-    # ===== RULE 4: Physical health consequence =====
-    if normalized.get("phys_health_consequence") == "yes":
-        prediction = "yes"
-
-    # ===== RULE 5: Obvious consequences =====
-    if normalized.get("obs_consequence") == "yes":
-        prediction = "yes"
-
-    # Less aggressive: coworkers/supervisor removed
-
-    # FINAL OUTPUT
-    return JSONResponse({"prediction": prediction.capitalize()})
-
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    return JSONResponse({
+        "prediction": pred,
+        "probability": round(prob, 3)
+    })
