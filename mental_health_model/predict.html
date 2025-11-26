@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mental Health Treatment Prediction</title>
+
   <style>
 /* ===== PAGE BACKGROUND ===== */
 body {
@@ -22,14 +23,16 @@ body {
 
 /* ===== MAIN CONTAINER ===== */
 .container {
-  width: 40%;
-  min-width: 420px;
-  min-height: 70vh;
+  width: 500px;
+  max-width: 90%;
+  height: 580px; /* ↓ reduced height */
   background: rgba(255, 255, 255, 0.96);
-  padding: 35px 80px;
-  border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  padding: 18px 25px; /* ↓ compact padding */
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
   animation: fadeIn 0.4s ease-out;
+
+  overflow: hidden; /* ✔ prevents scrolling */
 }
 
 @keyframes fadeIn {
@@ -41,16 +44,22 @@ body {
 h1 {
   text-align: center;
   color: #00796b;
-  font-size: 3.5rem;
-  margin-bottom: 60px;
+  font-size: 1.25rem; /* ↓ smaller */
+  margin-bottom: 20px; /* ↓ tighter */
   font-weight: 700;
 }
 
 /* ===== FORM GRID ===== */
 form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px 25px;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); /* ↓ narrower fields */
+  gap: 6px 10px; /* ↓ very compact spacing */
+  margin-top: -2px; /* tighten spacing */
+}
+
+input[name="age"] {
+  width: 100px;      /* adjust width as needed */
+  max-width: 478px;  /* optional, prevents it from getting too wide */
 }
 
 /* ===== LABELS ===== */
@@ -58,9 +67,9 @@ label {
   display: block;
   font-weight: 600;
   color: #00382e;
-  font-size: 3rem;
-  margin-bottom: 6px;
-  margin-top: 8px;
+  font-size: 1rem; /* ↓ smaller */
+  margin-bottom: 2px;
+  margin-top: 2px; /* ↓ tighter */
 }
 
 /* ===== INPUT FIELDS ===== */
@@ -68,52 +77,61 @@ input[type="number"],
 input[type="text"],
 select {
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 5px 10px; /* ↓ very compact */
+  border-radius: 5px;
   border: 1px solid #a9a9a9;
-  font-size: 2.3rem;
+  font-size: 1rem; /* ↓ smaller */
   background-color: #fafafa;
   transition: 0.2s ease;
-  box-sizing: border-box; /* ensures padding doesn't break the height */
 }
-
 
 input:focus,
 select:focus {
   border-color: #00796b;
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 121, 65, 0.3);
+  box-shadow: 0 0 4px rgba(0, 121, 65, 0.3);
 }
 
 /* ===== BUTTONS ===== */
 .buttons {
   grid-column: 1 / -1;
   display: flex;
+  justify-content: center;
+  gap: 12px; /* space between buttons */
+  margin-top: 6px; /* ↓ tighter */
   justify-content: space-between;
-  margin-top: 18px;
 }
 
+/* Only for the first step's button */
+#nextBtn1 {
+  display: block;          /* ensures it's treated as a block */
+  margin-left: 73%;          /* aligns it to the left */
+  font-size: 1rem;
+  padding: 11px;
+}
+
+
 button {
-  padding: 20px 30px;
+  padding: 12px 13px; /* ↓ reduced */
+  margin-top: 12px;
   background-color: #00796b;
   color: white;
   font-weight: 600;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: 0.2s ease;
-  font-size: 2.5rem;
-  width: 250px; 
-  margin-top: 30px;
-  margin-bottom: 30px;
+  font-size: 0.85rem; /* ↓ smaller */
+  width: 120px; /* ↓ smaller button */
 }
+
 
 button:hover {
   background-color: #00594f;
   transform: scale(1.03);
 }
 
-/* ===== STEPS SYSTEM ===== */
+/* ===== STEPS ===== */
 .step {
   display: none;
 }
@@ -124,8 +142,8 @@ button:hover {
 
 /* ===== RESULT BOX ===== */
 #result-container {
-  margin-top: 20px;
-  padding: 23px;
+  margin-top: 15px;
+  padding: 12px;
   background-color: #46ee6a;
   border-left: 6px solid #00a03e;
   border-radius: 10px;
@@ -135,19 +153,59 @@ button:hover {
 }
 
 #result {
-  font-size: 3rem;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #00522d;
 }
+
+/* ===== RESPONSIVE (MOBILE) ===== */
+@media (max-width: 768px) {
+  .container {
+    width: 70%;
+    padding: 30px 30px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  label {
+    font-size: 1.2rem;
+  }
+
+  input, select {
+    font-size: 1rem;
+    padding: 5px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 12px;
+  }
+
+  .buttons {
+    gap: 10px;
+  }
+
+  #result-container {
+    padding: 10px;
+  }
+
+  #result {
+    font-size: 1.8rem;
+  }
+}
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>🍃 Mental Health Treatment Prediction 🍃</h1>
+    <h1>🍃MENTAL HEALTH TREATMENT PREDICTION🍃</h1>
 
     <form id="mhForm">
 
-      <!-- STEP 1 -->
+      <!-- ================= STEP 1 ================= -->
       <div class="step active">
         <label>Age:</label>
         <input type="number" name="age" placeholder="Enter your Age" required>
@@ -160,7 +218,55 @@ button:hover {
         </select>
 
         <label>Country:</label>
-        <input type="text" name="country" placeholder="Enter your Country" required>
+        <select name="country" required>
+          <option value="" hidden>Select</option>
+          <option>Australia</option>
+          <option>Austria</option>
+          <option>Belgium</option>
+          <option>Brazil</option>
+          <option>Canada</option>
+          <option>China</option>
+          <option>Colombia</option>
+          <option>Costa Rica</option>
+          <option>Croatia</option>
+          <option>Czech Republic</option>
+          <option>Denmark</option>
+          <option>Finland</option>
+          <option>France</option>
+          <option>Georgia</option>
+          <option>Germany</option>
+          <option>Greece</option>
+          <option>Hungary</option>
+          <option>Iceland</option>
+          <option>India</option>
+          <option>Ireland</option>
+          <option>Israel</option>
+          <option>Italy</option>
+          <option>Japan</option>
+          <option>Kenya</option>
+          <option>Latvia</option>
+          <option>Malaysia</option>
+          <option>Mexico</option>
+          <option>Netherlands</option>
+          <option>New Zealand</option>
+          <option>Nigeria</option>
+          <option>Norway</option>
+          <option>Philippines</option>
+          <option>Poland</option>
+          <option>Portugal</option>
+          <option>Romania</option>
+          <option>Russia</option>
+          <option>Singapore</option>
+          <option>South Africa</option>
+          <option>Spain</option>
+          <option>Sweden</option>
+          <option>Switzerland</option>
+          <option>Turkey</option>
+          <option>Ukraine</option>
+          <option>United Arab Emirates</option>
+          <option>United Kingdom</option>
+          <option>United States</option>
+        </select>
 
         <label>Self Employed:</label>
         <select name="self_employed" required>
@@ -209,7 +315,7 @@ button:hover {
         </div>
       </div>
 
-      <!-- STEP 2 -->
+      <!-- ================= STEP 2 ================= -->
       <div class="step">
         <label>Tech Company:</label>
         <select name="tech_company" required>
@@ -281,7 +387,7 @@ button:hover {
         </div>
       </div>
 
-      <!-- STEP 3 -->
+      <!-- ================= STEP 3 ================= -->
       <div class="step">
         <label>Physical Health Consequence:</label>
         <select name="phys_health_consequence" required>
@@ -304,7 +410,7 @@ button:hover {
           <option value="" hidden>Select</option>
           <option>Yes</option>
           <option>No</option>
-          <option>Some of them</option>
+          <option>Somewhat</option>
         </select>
 
         <label>Mental Health Interview:</label>
@@ -340,75 +446,57 @@ button:hover {
 
         <div class="buttons">
           <button type="button" id="prevBtn3">Previous</button>
-          <button type="submit" id="predBtn">Predict</button>
+          <button type="submit">Predict</button>
         </div>
       </div>
-
     </form>
 
     <div id="result-container">
-      <h2 id="result"></h2>
+      <div id="result"></div>
     </div>
   </div>
 
   <script>
-  const steps = document.querySelectorAll('.step');
-  let step = 0;
+const steps = document.querySelectorAll(".step");
+let currentStep = 0;
 
-  // Step navigation
-  document.getElementById('nextBtn1').onclick = () => {
-    steps[step].classList.remove('active');
-    step = 1;
-    steps[step].classList.add('active');
-  };
-  document.getElementById('nextBtn2').onclick = () => {
-    steps[step].classList.remove('active');
-    step = 2;
-    steps[step].classList.add('active');
-  };
-  document.getElementById('prevBtn2').onclick = () => {
-    steps[step].classList.remove('active');
-    step = 0;
-    steps[step].classList.add('active');
-  };
-  document.getElementById('prevBtn3').onclick = () => {
-    steps[step].classList.remove('active');
-    step = 1;
-    steps[step].classList.add('active');
-  };
+// Updated showStep function
+function showStep(step) {
+  steps[currentStep].classList.remove("active");
+  steps[step].classList.add("active");
+  currentStep = step;
 
-  // Form submit
-  const form = document.getElementById("mhForm");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  // Hide result container on steps 1 & 2
+  document.getElementById("result-container").style.display = "none";
+}
 
-    // Convert form data to JSON
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+// Button clicks
+document.getElementById("nextBtn1").onclick = () => showStep(1);
+document.getElementById("nextBtn2").onclick = () => showStep(2);
+document.getElementById("prevBtn2").onclick = () => showStep(0);
+document.getElementById("prevBtn3").onclick = () => showStep(1);
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/predict", { // change to your deployed API URL if needed
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+// Form submission
+document.getElementById("mhForm").onsubmit = async (e) => {
+  e.preventDefault();
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+  const formData = new FormData(e.target);
 
-      const result = await response.json();
-
-      document.getElementById("result").innerText =
-        `Do you need treatment for a mental health condition?: ${result.prediction}`;
-
-      document.getElementById("result-container").style.display = "block";
-    } catch (error) {
-      console.error("Error:", error);
-      alert("There was an error contacting the prediction API. Make sure your backend is running and the URL is correct.");
-    }
+  const response = await fetch("/predict", {
+    method: "POST",
+    body: formData
   });
+
+  const data = await response.json();
+
+  document.getElementById("result").innerHTML =
+    "Do you need mental health treatment?: <strong>" + data.prediction + "</strong>";
+
+  // Show result only after submission
+  document.getElementById("result-container").style.display = "block";
+};
 </script>
+
 
 </body>
 </html>
